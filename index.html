@@ -1,297 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="work.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-H2kkM1Ttb5Qcz4oR+0r3WJlcWb0rY4YiJdHJt4XefDNlcC5aXRnM5O4LMwxyuMWpJZALSGH1clTAf2KdPr6k2g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- External JS and Icon Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Meta and Page Setup -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Expenza</title>
+
+  <!-- Tailwind CSS CDN and Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="bg-[#FAF4EF] text-[#1C1C1C] pl-64">
 
 
-<nav class="bg-[#FAF4EF] border-b border-[#EDE9D5]">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="#" class="text-xl font-semibold text-[#7C6F64]">Expense Tracker</a>
-    <div class="hidden md:flex md:w-auto ml-auto" id="navbar-dropdown">
-      <ul class="flex flex-col md:flex-row md:space-x-8 mt-4 md:mt-0 font-medium items-center">
-        <li><a href="#" class="block py-2 px-3 text-[#D9777A] font-medium border-b-2 border-[#D9777A] md:p-0"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
-        <li><a href="#" class="block py-2 px-3 text-[#7C6F64] hover:text-[#D9777A] md:p-0"><i class="fa-solid fa-list-ul mr-1"></i> Transactions</a></li>
-        <li><a href="#" class="block py-2 px-3 text-[#7C6F64] hover:text-[#D9777A] md:p-0"><i class="fa-solid fa-gear mr-1"></i> Settings</a></li>
-        <li><a href="#" class="block py-2 px-3 text-[#7C6F64] hover:text-[#D9777A] md:p-0"><i class="fa-solid fa-user mr-1"></i> Profile</a></li>
+  <!-- 🌐 Top Navigation Bar -->
+  <nav class="bg-[#FAF4EF] border-b border-[#EDE9D5]">
+    <div class="max-w-screen-xl flex justify-between items-center mx-auto p-4">
+      <a href="#" class="text-xl font-semibold text-[#7C6F64]">Expense Tracker</a>
+
+      <!-- Navigation Links -->
+      <ul class="hidden md:flex items-center space-x-8 font-medium">
+        <li><a href="#" class="text-[#D9777A] font-medium border-b-2 border-[#D9777A]"><i class="fa-solid fa-house mr-1"></i>Home</a></li>
+        <li><a href="#trans" class="hover:text-[#D9777A] text-[#7C6F64]"><i class="fa-solid fa-list-ul mr-1"></i>Transactions</a></li>
+<li>
+  <a href="#budget" class="hover:text-[#D9777A] text-[#7C6F64]">
+    <i class="fa-solid fa-coins mr-1"></i>Budget Planner
+  </a>
+</li>
+
+        <!-- Login & Logout Buttons -->
+        
         <li>
-          <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#D9777A] text-white hover:bg-[#C45552] transition-colors duration-200">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M16 13v-2H8v2h8zm1-9H7v2h10V4zM7 18h10v-2H7v2z"/>
-            </svg>
-            <span>Logout</span>
-          </a>
-        </li>
+  <button onclick="logout()" id="logout-btn" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#D9777A] text-white hover:bg-[#C45552] transition-colors">
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M16 13v-2H8v2h8zm1-9H7v2h10V4zM7 18h10v-2H7v2z"/>
+    </svg>
+    <span>Logout</span>
+  </button>
+</li>
+
       </ul>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#FFFFFF]">
-  <div class="h-full px-3 py-4 overflow-y-auto">
-    <a href="#" class="flex items-center space-x-3">
-      <img src="media/icon.png" class="h-8" alt="Logo" />
-      <span class="text-2xl font-semibold text-[#1C1C1C]">Expenza</span>
-    </a>
-    <ul class="space-y-2 font-medium mt-4">
-      <li><a href="#" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-table-columns w-5 text-[#7C6F64]"></i><span class="ml-3">Dashboard</span></a></li>
-      <li><a href="#" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-clock-rotate-left w-5 text-[#7C6F64]"></i><span class="ml-3">Expense History</span></a></li>
-      <li><a href="#" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-wallet w-5 text-[#7C6F64]"></i><span class="ml-3">Budget Planner</span></a></li>
-    </ul>
-  </div>
-</aside>
+  <!-- 📌 Sidebar Navigation -->
+  <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#FFFFFF]">
+    <div class="h-full px-3 py-4 overflow-y-auto">
+      <a href="#" class="flex items-center space-x-3">
+        <img src="media/icon.png" class="h-8" alt="Logo" />
+        <span class="text-2xl font-semibold text-[#1C1C1C]">Expenza</span>
+      </a>
+      <ul class="space-y-2 font-medium mt-4">
+        <li><a href="index.hml" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-table-columns w-5 text-[#7C6F64]"></i><span class="ml-3">Dashboard</span></a></li>
+        <li><a href="#history" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-clock-rotate-left w-5 text-[#7C6F64]"></i><span class="ml-3">Expense History</span></a></li>
+        <li><a href="#budget" class="flex items-center p-2 text-[#1C1C1C] hover:bg-[#EDE9D5] rounded-lg"><i class="fa-solid fa-wallet w-5 text-[#7C6F64]"></i><span class="ml-3">Budget Planner</span></a></li>
+      </ul>
+    </div>
+  </aside>
+<div class="flex items-baseline space-x-2 p-4">
+  <h3 class="text-xl font-medium text-[#D9777A]">Hi,</h3>
+  <h2 id="user" class="text-4xl font-bold text-[#D9777A]">User</h2>
+  <p class="text-[#7C6F64] text-lg ml-4">Welcome back to Expenza!</p>
+</div>
 
 
-<div style="display: flex;">
-<div class=" shadow max-w-sm w-full bg-[#FFFFFF] rounded-lg shadow-sm p-4 md:p-6 mt-10 ml-10">
-  <div class="flex justify-between mb-5">
-    <div class="grid gap-4 grid-cols-2">
-      <div>
-        <h5 class="inline-flex items-center text-[#7C6F64] leading-none font-normal mb-2">
-          Clicks
-        </h5>
-        <p class="text-[#1C1C1C] text-2xl leading-none font-bold">42.3k</p>
+
+
+  <!-- 🔢 Graph + Transactions + Upgrade Section -->
+  <div style="display: flex;">
+    <!-- Graph Card -->
+    <div class="shadow max-w-sm w-full bg-[#FFFFFF] rounded-lg p-4 md:p-6 mt-10 ml-10">
+      <!-- Header Info -->
+      <div class="flex justify-between mb-5">
+        <div class="grid gap-4 grid-cols-2">
+          <div><h5 class="text-[#7C6F64] font-normal mb-2">Clicks</h5><p class="text-[#1C1C1C] text-2xl font-bold">42.3k</p></div>
+          <div><h5 class="text-[#7C6F64] font-normal mb-2">CPC</h5><p class="text-[#1C1C1C] text-2xl font-bold">$5.40</p></div>
+        </div>
+        <button type="button" class="px-3 py-2 text-sm font-medium text-[#1C1C1C] bg-[#FFFFFF] border border-[#EDE9D5] hover:bg-[#FAF4EF] hover:text-[#D9777A] rounded-lg">
+          Last week
+          <svg class="w-2.5 h-2.5 ml-2" fill="none" stroke="#7C6F64" stroke-width="2" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
       </div>
-      <div>
-        <h5 class="inline-flex items-center text-[#7C6F64] leading-none font-normal mb-2">
-          CPC
-        </h5>
-        <p class="text-[#1C1C1C] text-2xl leading-none font-bold">$5.40</p>
+
+      <!-- Graph Canvas -->
+      <div class="h-40 bg-[#FAF4EF] rounded-md p-2">
+        <canvas id="lineChart"></canvas>
+      </div>
+
+      <!-- Report Button -->
+      <div class="border-t border-[#EDE9D5] mt-4 pt-5">
+        <button onclick="openReportModal()" class="px-5 py-2.5 text-sm font-medium text-white bg-[#D9777A] hover:bg-[#c76668] rounded-lg inline-flex items-center">
+          <svg class="w-3.5 h-3.5 mr-2" fill="currentColor" viewBox="0 0 16 20"><path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2Z"/></svg>
+          View full report
+        </button>
       </div>
     </div>
-    <div>
-      <button type="button"
-        class="px-3 py-2 inline-flex items-center text-sm font-medium text-[#1C1C1C] focus:outline-none bg-[#FFFFFF] border border-[#EDE9D5] hover:bg-[#FAF4EF] hover:text-[#D9777A] rounded-lg">
-        Last week
-        <svg class="w-2.5 h-2.5 ml-2" fill="none" stroke="#7C6F64" stroke-width="2" viewBox="0 0 10 6">
-          <path d="M1 1l4 4 4-4"/>
-        </svg>
+<a name="history">
+    <!-- Recent Transactions -->
+    <div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 max-w-md ml-10 mr-10 w-200">
+      <h2 class="text-lg font-semibold text-[#1C1C1C] mb-4">Recent Transactions</h2>
+      <ul class="divide-y divide-[#EDE9D5] text-sm" id="transactionList">
+        <li class="py-3 flex justify-between items-center"><div><p class="font-medium">Groceries</p><p class="text-xs text-[#7C6F64]">June 29, 2025</p></div><span class="text-[#C45552] font-semibold">- ₹850</span></li>
+        <li class="py-3 flex justify-between items-center"><div><p class="font-medium">Freelance Income</p><p class="text-xs text-[#7C6F64]">June 28, 2025</p></div><span class="text-[#CBA135] font-semibold">+ ₹2,000</span></li>
+        <li class="py-3 flex justify-between items-center"><div><p class="font-medium">Electricity Bill</p><p class="text-xs text-[#7C6F64]">June 26, 2025</p></div><span class="text-[#C45552] font-semibold">- ₹400</span></li>
+        <li class="py-3 flex justify-between items-center"><div><p class="font-medium">Savings Transfer</p><p class="text-xs text-[#7C6F64]">June 25, 2025</p></div><span class="text-[#E6A57E] font-semibold">+ ₹500</span></li>
+      </ul>
+    </div>
+    </a>
+
+    <!-- Premium Upgrade Box -->
+    <div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 ml-35 mr-10 max-w-md">
+      <div class="flex items-center mb-4">
+        <div class="p-3 rounded-full bg-[#FAF4EF] text-[#D9777A]"><i class="fa-solid fa-gem text-xl"></i></div>
+        <div class="ml-4">
+          <h3 class="text-lg font-semibold text-[#1C1C1C]">Upgrade to Premium</h3>
+          <p class="text-sm text-[#7C6F64]">Unlock full access to analytics, unlimited entries & more.</p>
+        </div>
+      </div>
+      <ul class="text-sm text-[#1C1C1C] space-y-2 mb-4 pl-2">
+        <li class="flex items-center"><i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Advanced Budget Tools</li>
+        <li class="flex items-center"><i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Unlimited Transactions</li>
+        <li class="flex items-center"><i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Export to Excel/PDF</li>
+      </ul>
+      <button class="w-full bg-[#D9777A] hover:bg-[#C45552] text-white font-medium py-2 px-4 rounded-lg transition">Upgrade Now</button>
+    </div>
+  </div>
+<a name="trans">
+<!-- 🔧 Manage Transactions -->
+<div style="display: flex;">
+  <div class="bg-[#FFFFFF] border border-[#EDE9D5] mt-10 ml-10 mr-10 rounded-2xl shadow p-6 w-full max-w-md">
+    <h2 class="text-lg font-semibold text-[#1C1C1C] mb-4">Manage Transactions</h2>
+
+    <!-- ➕ Add Transaction Form -->
+    <form id="addTransactionForm" class="space-y-4">
+      <!-- Title Input -->
+      <div>
+        <label class="block text-sm text-[#7C6F64] mb-1">Title</label>
+        <input id="txn-title" type="text" class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm bg-[#FAF4EF]">
+      </div>
+
+      <!-- Amount Input -->
+      <div>
+        <label class="block text-sm text-[#7C6F64] mb-1">Amount</label>
+        <input id="txn-amount" type="number" class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm bg-[#FAF4EF]">
+      </div>
+
+      <!-- Type Selector -->
+      <div>
+        <label class="block text-sm text-[#7C6F64] mb-1">Type</label>
+        <select id="txn-type" class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm bg-[#FAF4EF]">
+          <option>Expense</option>
+          <option>Income</option>
+          <option>Savings</option>
+        </select>
+      </div>
+
+      <!-- Date Picker -->
+      <div>
+        <label class="block text-sm text-[#7C6F64] mb-1">Date</label>
+        <input id="txn-date" type="date" class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm bg-[#FAF4EF]">
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full bg-[#D9777A] hover:bg-[#C45552] text-white py-2 px-4 rounded-lg font-medium">
+        Add Transaction
+      </button>
+    </form>
+
+    <!-- 🗑️ Delete Transaction -->
+    <div class="mt-6 border-t pt-4 border-[#EDE9D5]">
+      <h3 class="text-sm font-semibold text-[#1C1C1C] mb-2">Delete a Transaction</h3>
+      <input id="delete-title" type="text" placeholder="Enter Title to Delete" class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm bg-[#FAF4EF]">
+      <button id="deleteBtn" type="button" class="w-full mt-2 bg-[#E6A57E] hover:bg-[#db9063] text-white py-2 px-4 rounded-lg font-medium">
+        Delete
       </button>
     </div>
   </div>
-
-  <!-- Placeholder for graph -->
-  <div id="line-chart" class=" h-40 bg-[#FAF4EF] rounded-md flex items-center justify-center text-[#7C6F64] text-sm italic">
-    [ Line Graph Placeholder ]
-  </div>
-
-  <div class="grid grid-cols-1 border-t border-[#EDE9D5] mt-4 pt-5">
-    <a href="#"
-      class="px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-[#D9777A] hover:bg-[#c76668] rounded-lg">
-      <svg class="w-3.5 h-3.5 text-white mr-2" fill="currentColor" viewBox="0 0 16 20">
-        <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2Zm-3 15H4.828a1 1 0 0 1 0-2h6.238a1 1 0 0 1 0 2Zm0-4H4.828a1 1 0 0 1 0-2h6.238a1 1 0 1 1 0 2Z"/>
-        <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
-      </svg>
-      View full report
-    </a>
-  </div>
-  
-</div>
-
-<div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 max-w-md ml-10 mr-10 w-200">
-  <h2 class="text-lg font-semibold text-[#1C1C1C] mb-4">Recent Transactions</h2>
-  
-  <ul class="divide-y divide-[#EDE9D5] text-sm">
-    <li class="py-3 flex justify-between items-center">
+</a>
+<a name="budget">
+    <!-- 📊 Budget Planner -->
+  <div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 ml-10 mr-10 w-full max-w-5xl">
+    <!-- Header + Actions -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
       <div>
-        <p class="text-[#1C1C1C] font-medium">Groceries</p>
-        <p class="text-[#7C6F64] text-xs">June 29, 2025</p>
+        <h3 class="text-xl font-semibold text-[#1C1C1C] mb-1">Budget Planner</h3>
+        <p class="text-sm text-[#7C6F64]">Track and manage your monthly budget efficiently</p>
       </div>
-      <span class="text-[#C45552] font-semibold">- ₹850</span>
-    </li>
-    
-    <li class="py-3 flex justify-between items-center">
+      <div class="flex gap-2 mt-4 md:mt-0">
+        <button class="px-4 py-2 bg-[#D9777A] hover:bg-[#C45552] text-white text-sm rounded-lg" onclick="editBudget()">Edit</button>
+        <button class="px-4 py-2 bg-[#E6A57E] hover:bg-[#db9063] text-white text-sm rounded-lg" onclick="downloadBudgetReport()">Download Report</button>
+      </div>
+    </div>
+
+    <!-- Circular Progress + Budget Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 🌀 Circular Progress -->
+      <div class="flex items-center justify-center">
+        <div class="relative w-40 h-40">
+          <svg class="w-full h-full rotate-[-90deg]">
+            <circle cx="50%" cy="50%" r="70" stroke="#EDE9D5" stroke-width="15" fill="none" />
+            <circle id="circular-progress" cx="50%" cy="50%" r="70" stroke="#D9777A" stroke-width="15" fill="none" stroke-dasharray="440" stroke-dashoffset="0" stroke-linecap="round" />
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center flex-col">
+            <p id="budget-percentage" class="text-2xl font-bold text-[#1C1C1C]">0%</p>
+            <p class="text-sm text-[#7C6F64]">Used</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 💵 Budget Categories -->
       <div>
-        <p class="text-[#1C1C1C] font-medium">Freelance Income</p>
-        <p class="text-[#7C6F64] text-xs">June 28, 2025</p>
-      </div>
-      <span class="text-[#CBA135] font-semibold">+ ₹2,000</span>
-    </li>
-    
-    <li class="py-3 flex justify-between items-center">
-      <div>
-        <p class="text-[#1C1C1C] font-medium">Electricity Bill</p>
-        <p class="text-[#7C6F64] text-xs">June 26, 2025</p>
-      </div>
-      <span class="text-[#C45552] font-semibold">- ₹400</span>
-    </li>
-    
-    <li class="py-3 flex justify-between items-center">
-      <div>
-        <p class="text-[#1C1C1C] font-medium">Savings Transfer</p>
-        <p class="text-[#7C6F64] text-xs">June 25, 2025</p>
-      </div>
-      <span class="text-[#E6A57E] font-semibold">+ ₹500</span>
-    </li>
-  </ul>
-</div>
+        <p class="text-sm text-[#7C6F64] mb-1">This Month's Budget</p>
+        <div class="w-full bg-[#FAF4EF] rounded-full h-4 mb-1">
+          <div id="total-progress-bar" class="bg-[#D9777A] h-4 rounded-full" style="width: 0%;"></div>
+        </div>
+        <div class="flex justify-between text-sm text-[#1C1C1C] mb-4">
+          <span id="spent-text">Spent: ₹0</span>
+          <span id="total-budget-text">Total: ₹0</span>
+        </div>
 
-<div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 ml-35 mr-10 max-w-md">
-  <div class="flex items-center mb-4">
-    <div class="p-3 rounded-full bg-[#FAF4EF] text-[#D9777A]">
-      <i class="fa-solid fa-gem text-xl"></i>
-    </div>
-    <div class="ml-4">
-      <h3 class="text-lg font-semibold text-[#1C1C1C]">Upgrade to Premium</h3>
-      <p class="text-sm text-[#7C6F64]">Unlock full access to analytics, unlimited entries & more.</p>
-    </div>
-  </div>
-
-  <ul class="text-sm text-[#1C1C1C] space-y-2 mb-4 pl-2">
-    <li class="flex items-center">
-      <i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Advanced Budget Tools
-    </li>
-    <li class="flex items-center">
-      <i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Unlimited Transactions
-    </li>
-    <li class="flex items-center">
-      <i class="fa-solid fa-check mr-2 text-[#CBA135]"></i> Export to Excel/PDF
-    </li>
-  </ul>
-
-  <button class="w-full bg-[#D9777A] hover:bg-[#C45552] text-white font-medium py-2 px-4 rounded-lg transition">
-    Upgrade Now
-  </button>
-</div>
-
-
-</div>
-<div style="display: flex;">
-
- <div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 max-w-md ml-10">
-  <h2 class="text-lg font-semibold text-[#1C1C1C] mb-4">Manage Transactions</h2>
-
-  <!-- Add Transaction Form -->
-  <form class="space-y-4">
-    <div>
-      <label class="block text-sm text-[#7C6F64] mb-1">Title</label>
-      <input type="text" placeholder="e.g., Grocery shopping"
-        class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-[#FAF4EF] focus:outline-none focus:ring-2 focus:ring-[#D9777A]">
-    </div>
-
-    <div>
-      <label class="block text-sm text-[#7C6F64] mb-1">Amount</label>
-      <input type="number" placeholder="e.g., 500"
-        class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-[#FAF4EF] focus:outline-none focus:ring-2 focus:ring-[#D9777A]">
-    </div>
-
-    <div>
-      <label class="block text-sm text-[#7C6F64] mb-1">Type</label>
-      <select
-        class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-[#FAF4EF] focus:outline-none focus:ring-2 focus:ring-[#D9777A]">
-        <option>Expense</option>
-        <option>Income</option>
-        <option>Savings</option>
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm text-[#7C6F64] mb-1">Date</label>
-      <input type="date"
-        class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-[#FAF4EF] focus:outline-none focus:ring-2 focus:ring-[#D9777A]">
-    </div>
-
-    <button type="submit"
-      class="w-full mt-2 bg-[#D9777A] hover:bg-[#C45552] text-white py-2 px-4 rounded-lg font-medium">
-      Add Transaction
-    </button>
-  </form>
-
-  <!-- Delete Transaction Section -->
-  <div class="mt-6 border-t pt-4 border-[#EDE9D5]">
-    <h3 class="text-sm font-semibold text-[#1C1C1C] mb-2">Delete a Transaction</h3>
-    <input type="text" placeholder="Enter Transaction ID"
-      class="w-full border border-[#EDE9D5] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-[#FAF4EF] focus:outline-none focus:ring-2 focus:ring-[#D9777A]">
-    <button type="button"
-      class="w-full mt-2 bg-[#E6A57E] hover:bg-[#db9063] text-white py-2 px-4 rounded-lg font-medium">
-      Delete
-    </button>
-  </div>
- </div>
- 
- <div class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 ml-10 mr-10 w-full max-w-5xl">
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-    <div>
-      <h3 class="text-xl font-semibold text-[#1C1C1C] mb-1">Budget Planner</h3>
-      <p class="text-sm text-[#7C6F64]">Track and manage your monthly budget efficiently</p>
-    </div>
-    <div class="flex gap-2 mt-4 md:mt-0">
-      <button class="px-4 py-2 bg-[#D9777A] hover:bg-[#C45552] text-white text-sm rounded-lg">Edit</button>
-      <button class="px-4 py-2 bg-[#E6A57E] hover:bg-[#db9063] text-white text-sm rounded-lg">Download Report</button>
-    </div>
-  </div>
-
-  <!-- Row: Circular Progress + Summary -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Circular Progress Bar -->
-    <div class="flex items-center justify-center">
-      <div class="relative w-40 h-40">
-        <svg class="w-full h-full rotate-[-90deg]">
-          <circle cx="50%" cy="50%" r="70" stroke="#EDE9D5" stroke-width="15" fill="none" />
-          <circle cx="50%" cy="50%" r="70" stroke="#D9777A" stroke-width="15" fill="none"
-            stroke-dasharray="440"
-            stroke-dashoffset="154"
-            stroke-linecap="round" />
-        </svg>
-        <div class="absolute inset-0 flex items-center justify-center flex-col">
-          <p class="text-2xl font-bold text-[#1C1C1C]">65%</p>
-          <p class="text-sm text-[#7C6F64]">Used</p>
+        <!-- Budget Breakdown -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-[#FAF4EF] p-3 rounded-lg">
+            <p class="text-sm text-[#7C6F64] mb-1">Groceries</p>
+            <p id="groceries-text" class="text-lg font-semibold text-[#1C1C1C]">₹0 / ₹0</p>
+          </div>
+          <div class="bg-[#FAF4EF] p-3 rounded-lg">
+            <p class="text-sm text-[#7C6F64] mb-1">Utilities</p>
+            <p id="utilities-text" class="text-lg font-semibold text-[#1C1C1C]">₹0 / ₹0</p>
+          </div>
+          <div class="bg-[#FAF4EF] p-3 rounded-lg">
+            <p class="text-sm text-[#7C6F64] mb-1">Entertainment</p>
+            <p id="entertainment-text" class="text-lg font-semibold text-[#1C1C1C]">₹0 / ₹0</p>
+          </div>
+          <div class="bg-[#FAF4EF] p-3 rounded-lg">
+            <p class="text-sm text-[#7C6F64] mb-1">Transport</p>
+            <p id="transport-text" class="text-lg font-semibold text-[#1C1C1C]">₹0 / ₹0</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Budget Summary -->
-    <div>
-      <!-- Monthly Progress -->
-      <p class="text-sm text-[#7C6F64] mb-1">This Month's Budget</p>
-      <div class="w-full bg-[#FAF4EF] rounded-full h-4 mb-1">
-        <div class="bg-[#D9777A] h-4 rounded-full" style="width: 65%;"></div>
-      </div>
-      <div class="flex justify-between text-sm text-[#1C1C1C] mb-4">
-        <span>Spent: ₹13,000</span>
-        <span>Total: ₹20,000</span>
-      </div>
-
-      <!-- Category Summary -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="bg-[#FAF4EF] p-3 rounded-lg">
-          <p class="text-sm text-[#7C6F64] mb-1">Groceries</p>
-          <p class="text-lg font-semibold text-[#1C1C1C]">₹4,000 / ₹5,000</p>
-        </div>
-        <div class="bg-[#FAF4EF] p-3 rounded-lg">
-          <p class="text-sm text-[#7C6F64] mb-1">Utilities</p>
-          <p class="text-lg font-semibold text-[#1C1C1C]">₹1,200 / ₹2,500</p>
-        </div>
-        <div class="bg-[#FAF4EF] p-3 rounded-lg">
-          <p class="text-sm text-[#7C6F64] mb-1">Entertainment</p>
-          <p class="text-lg font-semibold text-[#1C1C1C]">₹2,500 / ₹3,000</p>
-        </div>
-        <div class="bg-[#FAF4EF] p-3 rounded-lg">
-          <p class="text-sm text-[#7C6F64] mb-1">Transport</p>
-          <p class="text-lg font-semibold text-[#1C1C1C]">₹500 / ₹1,000</p>
-        </div>
-      </div>
+    <!-- 📉 Remaining Budget -->
+    <div class="mt-6 border-t border-[#EDE9D5] pt-4">
+      <p class="text-sm text-[#7C6F64]">Remaining Budget</p>
+      <p id="remaining-budget-text" class="text-xl font-bold text-[#CBA135]">₹0</p>
     </div>
   </div>
-
-  <!-- Bottom Summary -->
-  <div class="mt-6 border-t border-[#EDE9D5] pt-4">
-    <p class="text-sm text-[#7C6F64]">Remaining Budget</p>
-    <p class="text-xl font-bold text-[#CBA135]">₹7,000</p>
-  </div>
 </div>
 
- </div> 
+<!-- 🔲 Overlay Background -->
+<div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+</a>
 
 
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const userDisplay = document.getElementById("user");
+    const username = localStorage.getItem("loggedInUser");
 
+    if (username && userDisplay) {
+      userDisplay.textContent = username;
+    } else {
+      userDisplay.textContent = "Guest";
+    }
+  });
+</script>
+  <script src="work.js"></script>
 
-</div>
 </body>
 </html>
