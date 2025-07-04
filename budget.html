@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <script src="https://cdn.tailwindcss.com"></script>
+  <script src="work.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <div>
+
+<div id="monthly-budget-card" class="bg-[#FFFFFF] border border-[#EDE9D5] rounded-2xl shadow p-6 mt-10 ml-10 max-w-md w-full">
+  <h2 class="text-lg font-semibold text-[#1C1C1C] mb-2">Set Monthly Budget</h2>
+  <p class="text-sm text-[#7C6F64] mb-4">Enter your total budget for this month to track spending effectively.</p>
+  <input
+    id="monthlyBudgetInput"
+    type="number"
+    placeholder="Enter amount (₹)"
+    class="w-full px-4 py-2 border border-[#EDE9D5] rounded-lg mb-4 bg-[#FAF4EF] text-[#1C1C1C] text-sm"
+  />
+  <button
+    onclick="saveMonthlyBudget()"
+    class="w-full px-4 py-2 bg-[#D9777A] hover:bg-[#C45552] text-white text-sm font-medium rounded-lg"
+  >
+    Save Budget
+  </button>
+  </center>
+</div>
+</body>
+</html>
